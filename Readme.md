@@ -14,7 +14,7 @@
  GET: Categories 
 </p>
 
-Endpoint: [https://openapi.programming-hero.com/api/phero-tube/categories](https://openapi.programming-hero.com/api/phero-tube/categories) <br/>
+Endpoint: [](https://openapi.programming-hero.com/api/phero-tube/categories) <br/>
 
 <hr/>
 <p style=" font-weight:bold">
