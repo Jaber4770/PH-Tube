@@ -21,7 +21,7 @@ Endpoint: [](https://openapi.programming-hero.com/api/phero-tube/categories) <br
  GET: Videos 
 </p>
 
-Endpoint: [https://openapi.programming-hero.com/api/phero-tube/videos](https://openapi.programming-hero.com/api/phero-tube/videos) <br/>
+Endpoint: [](https://openapi.programming-hero.com/api/phero-tube/videos) <br/>
 
 <hr/>
 <p style=" font-weight:bold">
