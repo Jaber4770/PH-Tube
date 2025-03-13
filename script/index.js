@@ -10,7 +10,13 @@ const loadVideos = () => {
         .then(data => showVideos(data.videos));
 }
 
-
+const loadCategoryVideo = (id) => {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
+    fetch(url)
+        .then(res => (res.json()))
+        .then(data => showVideos(data.category));
+    ;
+}
 
 
 const showCategories = (categories) => {
@@ -19,7 +25,7 @@ const showCategories = (categories) => {
         const container = document.getElementById("categories");
         const div = document.createElement("div");
         div.innerHTML = `
-        <button class="px-8 py-2 btn hover:bg-[#ff1f3d] hover:text-white">${category.category}</button>
+        <button onclick="loadCategoryVideo(${category.category_id})" class="px-8 py-2 btn hover:bg-[#ff1f3d] hover:text-white">${category.category}</button>
         `
         container.appendChild(div);
     })
@@ -28,28 +34,26 @@ const showCategories = (categories) => {
 const showVideos = (videos) => {
     // console.log(videos);
     const videoContainer = document.getElementById("video-container");
+    videoContainer.innerHTML = '';
     videos.forEach(video => {
         const div = document.createElement("div");
         // console.log(video.authors[0].profile_picture);
         div.innerHTML = `
 <div class="card bg-base-100 h-full shadow-sm">
     <figure>
-        <img src="${video.thumbnail}" alt="Thumbnail" />
+        <img class="w-full h-[200px] object-cover" src="${video.thumbnail}" alt="Thumbnail" />
     </figure>
     <div class="card-body">
         <div class="flex justify-between gap-5">
            <figure>
-              <img class=" w-16 rounded-full" src="${video.authors[0].profile_picture}" alt="Author" />
+              <img class="w-16 rounded-full" src="${video.authors[0].profile_picture}" alt="Author" />
             </figure>
             <div class="flex-1 flex flex-col gap-2">
             <h2 class="card-title text-bold">${video.title}</h2>
-            <p>${video.authors[0].profile_name}</p>
-            <p class="">${video.others.views} views</p>
+            <p class="text-gray-400 flex gap-2">${video.authors[0].profile_name} <img class="w-[20px]" src="https://img.icons8.com/?size=48&id=98A4yZTt9abw&format=png"/></p>
+            <p class="text-gray-400">${video.others.views} views</p>
             </div>
         </div>
-    </div>
-    <div class="card-actions justify-end m-2">
-        <button class="btn btn-primary">Play Now</button>
     </div>
 </div>
 </div>
@@ -61,4 +65,3 @@ const showVideos = (videos) => {
 }
 
 loadCategories();
-loadVideos();
