@@ -1,3 +1,9 @@
+function removeActiveclass() {
+    const activeBtn = document.getElementsByClassName('active');
+    for (let btn of activeBtn) {
+        btn.classList.remove("active");
+    }
+}
 const loadCategories = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
         .then(res => res.json())
@@ -7,14 +13,22 @@ const loadCategories = () => {
 const loadVideos = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
         .then(res => res.json())
-        .then(data => showVideos(data.videos));
-}
+        .then(data => {
+            document.getElementById("allBtn").classList.add("active");
+            showVideos(data.videos);
+        })
+};
 
 const loadCategoryVideo = (id) => {
     const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
     fetch(url)
         .then(res => (res.json()))
-        .then(data => showVideos(data.category));
+        .then(data => {
+            removeActiveclass();
+            const activeBtn = document.getElementById(`btn-${id}`);
+            activeBtn.classList.add("active");
+            showVideos(data.category)
+        });
     ;
 }
 
@@ -25,16 +39,29 @@ const showCategories = (categories) => {
         const container = document.getElementById("categories");
         const div = document.createElement("div");
         div.innerHTML = `
-        <button onclick="loadCategoryVideo(${category.category_id})" class="px-8 py-2 btn hover:bg-[#ff1f3d] hover:text-white">${category.category}</button>
+        <button id="btn-${category.category_id}" onclick="loadCategoryVideo(${category.category_id})" class="px-8 py-2 btn hover:bg-[#ff1f3d] hover:text-white">${category.category}</button>
         `
         container.appendChild(div);
     })
 }
 
 const showVideos = (videos) => {
+
     // console.log(videos);
     const videoContainer = document.getElementById("video-container");
     videoContainer.innerHTML = '';
+
+    if (videos.length === 0) {
+        videoContainer.innerHTML = `
+          <section class="col-span-12 my-20 flex flex-col justify-center items-center">
+                <img class="w-40" src="assets/Icon.png" alt="">
+                <h2 class="pt-5 text-3xl font-bold">Opps! no vidoe available on this page.</h2>
+            </section>
+        `;
+        return;
+    }
+
+
     videos.forEach(video => {
         const div = document.createElement("div");
         // console.log(video.authors[0].profile_picture);
